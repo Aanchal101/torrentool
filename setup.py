@@ -7,10 +7,8 @@ from torrentool import VERSION
 PATH_BASE = os.path.dirname(__file__)
 PYTEST_RUNNER = ['pytest-runner'] if 'test' in sys.argv else []
 
-f = open(os.path.join(PATH_BASE, 'README.rst'))
-README = f.read()
-f.close()
-
+with open(os.path.join(PATH_BASE, 'README.rst')) as f:
+    README = f.read()
 setup(
     name='torrentool',
     version='.'.join(map(str, VERSION)),

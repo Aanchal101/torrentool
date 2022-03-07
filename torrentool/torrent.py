@@ -95,8 +95,10 @@ class Torrent:
         if 'files' in info:
             base = info['name']
 
-            for f in info['files']:
-                files.append(TorrentFile(join(base, *f['path']), f['length']))
+            files.extend(
+                TorrentFile(join(base, *f['path']), f['length'])
+                for f in info['files']
+            )
 
         else:
             files.append(TorrentFile(info['name'], info['length']))
@@ -246,18 +248,12 @@ class Torrent:
             if not urls:
                 return
 
-            trackers = []
-
             urls = urls[0]  # Only primary announcers are enough.
-            for url in urls:
-                trackers.append(('tr', url))
-
-            if trackers:
+            if trackers := [('tr', url) for url in urls]:
                 return urlencode(trackers)
 
         def add_ws():
-            webseeds = [('ws', url) for url in self.webseeds]
-            if webseeds:
+            if webseeds := [('ws', url) for url in self.webseeds]:
                 return urlencode(webseeds)
 
         params_map = {
