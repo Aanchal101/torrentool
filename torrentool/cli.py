@@ -59,11 +59,7 @@ def create(source, dest, tracker, open_trackers, comment, cache):
     if comment:
         my_torrent.comment = comment
 
-    urls = []
-
-    if tracker:
-        urls = tracker.split(',')
-
+    urls = tracker.split(',') if tracker else []
     if open_trackers:
         click.secho('Fetching an up-to-date open tracker list ...')
         try:
